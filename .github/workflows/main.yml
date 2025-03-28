@@ -1,0 +1,29 @@
+name: Build and Release Firmware
+
+on:
+  push:
+    tags:
+      - "v*"  # Runs on new version tags (e.g., v1.0, v2.1)
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          python3 -m pip install --upgrade pip
+          pip install platformio
+
+      - name: Build firmware
+        run: |
+          platformio run
+
+      - name: Upload firmware to GitHub Releases
+        uses: softprops/action-gh-release@v2
+        with:
+          files: .pio/build/STM32F401/firmware.bin
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
