@@ -130,7 +130,7 @@ void host_action(PGM_P const pstr, const bool eol) {
   void filament_load_host_prompt() {
     const bool disable_to_continue = TERN0(HAS_FILAMENT_SENSOR, runout.filament_ran_out);
     host_prompt_do(PROMPT_FILAMENT_RUNOUT, PSTR("Paused"), PSTR("PurgeMore"),
-      disable_to_continue ? PSTR("DisableRunout") : CONTINUE_STR
+      disable_to_continue ? PSTR("Resume") : CONTINUE_STR
     );
   }
 
@@ -160,7 +160,7 @@ void host_action(PGM_P const pstr, const bool eol) {
             #endif
             #if HAS_FILAMENT_SENSOR
               if (runout.filament_ran_out) {                      // Disable a triggered sensor
-                runout.enabled = false;
+               // runout.enabled = false;
                 runout.reset();
               }
             #endif
